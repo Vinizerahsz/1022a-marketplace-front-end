@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
+import CadastroProduto from './CadastroProduto';
+import ListarProdutos from "./ListarProdutos";
 import "./App.css";
 
 // Tipo para produtos
@@ -19,6 +21,10 @@ type CarrinhoItemType = {
   imagem: string;
 };
 
+
+  
+CadastroProduto()
+ListarProdutos()
 // Componente Carrinho
 function Carrinho({
   carrinho,
@@ -167,6 +173,7 @@ function App() {
           }
         />
       </Routes>
+    
     </>
   );
 }
