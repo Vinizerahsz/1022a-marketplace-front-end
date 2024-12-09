@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import CadastroProduto from './CadastroProduto';
-import ListarProdutos from "./ListarProdutos";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import "./App.css";
 
 // Tipo para produtos
@@ -21,10 +19,74 @@ type CarrinhoItemType = {
   imagem: string;
 };
 
+// Componente para cadastrar produto
+function CadastroProduto({
+  onCadastro,
+}: {
+  onCadastro: (produto: Omit<ProdutoType, "id">) => void;
+}) {
+  const [nome, setNome] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [preco, setPreco] = useState("");
+  const [imagem, setImagem] = useState("");
+  const navigate = useNavigate();
 
-  
-CadastroProduto()
-ListarProdutos()
+  const handleCadastro = () => {
+    if (!nome || !descricao || !preco || !imagem) {
+      alert("Todos os campos são obrigatórios!");
+      return;
+    }
+
+    onCadastro({ nome, descricao, preco, imagem });
+    navigate("/"); // Após o cadastro, redireciona para a página inicial.
+  };
+
+  return (
+    <div className="cadastro-container">
+      <h2>Cadastrar Produto</h2>
+      <form>
+        <label>
+          Nome:
+          <input
+            type="text"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+        </label>
+        <label>
+          Descrição:
+          <textarea
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+          ></textarea>
+        </label>
+        <label>
+          Preço:
+          <input
+            type="text"
+            value={preco}
+            onChange={(e) => setPreco(e.target.value)}
+          />
+        </label>
+        <label>
+          URL da Imagem:
+          <input
+            type="text"
+            value={imagem}
+            onChange={(e) => setImagem(e.target.value)}
+          />
+        </label>
+        <button type="button" onClick={handleCadastro}>
+          Cadastrar
+        </button>
+      </form>
+      <Link to="/">
+        <button className="voltar-home">Voltar para Produtos</button>
+      </Link>
+    </div>
+  );
+}
+
 // Componente Carrinho
 function Carrinho({
   carrinho,
@@ -65,6 +127,7 @@ function Carrinho({
   );
 }
 
+// Componente principal
 function App() {
   const [produtos, setProdutos] = useState<ProdutoType[]>([]);
   const [carrinho, setCarrinho] = useState<CarrinhoItemType[]>([]);
@@ -79,6 +142,29 @@ function App() {
       .then((resposta) => resposta.json())
       .then((dados) => setCarrinho(dados));
   }, []);
+
+  // Função para cadastrar produto
+  const cadastrarProduto = async (produto: Omit<ProdutoType, "id">) => {
+    try {
+      const response = await fetch("http://localhost:8000/produtos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(produto),
+      });
+
+      if (response.ok) {
+        const novoProduto = await response.json();
+        setProdutos([...produtos, novoProduto]); // Atualiza a lista de produtos.
+        alert("Produto cadastrado com sucesso!");
+      } else {
+        console.error("Erro ao cadastrar produto:", await response.text());
+      }
+    } catch (error) {
+      console.error("Erro ao conectar ao servidor:", error);
+    }
+  };
 
   // Função para adicionar produto ao carrinho
   const adicionarAoCarrinho = async (produto: ProdutoType) => {
@@ -97,7 +183,7 @@ function App() {
 
       if (response.ok) {
         const novoItem = await response.json();
-        setCarrinho([...carrinho, novoItem]);
+        setCarrinho((prevCarrinho) => [...prevCarrinho, novoItem]); // Atualiza o carrinho.
       } else {
         console.error("Erro ao adicionar ao carrinho:", await response.text());
       }
@@ -133,6 +219,9 @@ function App() {
             </li>
             <li>
               <Link to="/carrinho">Carrinho</Link>
+            </li>
+            <li>
+              <Link to="/cadastrar">Cadastrar Produto</Link>
             </li>
           </ul>
         </nav>
@@ -172,10 +261,11 @@ function App() {
             <Carrinho carrinho={carrinho} removerDoCarrinho={removerDoCarrinho} />
           }
         />
+        {/* Página de Cadastro */}
+        <Route
+          path="/cadastrar"
+          element={<CadastroProduto onCadastro={cadastrarProduto} />}
+        />
       </Routes>
-    
-    </>
-  );
-}
-
-export default App;
+  </>)}
+  export default App
