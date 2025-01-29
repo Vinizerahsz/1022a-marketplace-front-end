@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+  font-family: "Poppins", serif;
+  
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+}
+
+.alterar-produto-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alterar-produto-container h1 {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.alterar-produto-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.alterar-produto-container form div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.alterar-produto-container form label {
+  font-weight: bold;
+  color: #333;
+}
+
+.alterar-produto-container form input {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: "Poppins", serif;
+}
+
+.alterar-produto-container form input:focus {
+  outline: none;
+  border-color: #9400d3;
+  box-shadow: 0 0 5px rgba(148, 0, 211, 0.5);
+}
+
+.alterar-produto-container form input[type="submit"] {
+  background-color: #DC143C; /* Cor vermelha para o botão de alteração */
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.alterar-produto-container form input[type="submit"]:hover {
+  background-color: #B01030; /* Cor mais escura no hover */
+}
+
+.imagem-produto-reduzida {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .alterar-produto-container {
+    padding: 1rem;
+  }
+
+  .alterar-produto-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .alterar-produto-container form input {
+    padding: 0.6rem;
+  }
+}

@@ -40,8 +40,8 @@ function App() {
     <>
       {/* Listagem de Produtos */}
       <div className="produtos-container">
-      <Link to="/cadastro-produto">Cadastro de Produto</Link>
-        <h1 className='titulo-produto'>Produtos</h1>
+      <Link to="/cadastro-produto" className='estilizar-cadastro-botao'>Cadastro de Produto</Link>
+        <h1 className='titulo-produto'>Vanguard Store</h1>
         <div className="produtos-list">
           {
             produtos.map(produto => (
@@ -53,8 +53,8 @@ function App() {
                 <p className="produto-preco">{produto.preco}</p>
                 <p className="produto-descricao">{produto.descricao}</p>
                 <button className="botao-comprar">Comprar</button>
-                <button onClick={() => handleExcluir(produto.id)}>Excluir</button>
-                <Link to={`/alterar-produto/${produto.id}`} className="botao-comprar">Alterar</Link>
+                <button className="botao-excluir"onClick={() => handleExcluir(produto.id)}>Excluir</button>
+                <Link to={`/alterar-produto/${produto.id}`} className="botao-alterar">Alterar</Link>
               </div>
             ))
           }

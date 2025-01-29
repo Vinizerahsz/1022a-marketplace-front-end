@@ -11,9 +11,7 @@ function Header(){
                   </ul>
                 </nav>
         
-                <div className="header-actions">
-                  <button className="login-button">Login</button>
-                </div>
+          
               </header>
     )
 }
