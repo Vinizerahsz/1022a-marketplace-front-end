@@ -16,14 +16,14 @@ function App() {
   // useEffect para carregar produtos e usuários
   useEffect(() => {
     // Buscar os produtos
-    fetch("https://one022a-marketplace-e90o.onrender.com/produtos")
+    fetch("https://one022a-marketplace-bggt.onrender.com/produtos")
       .then(resposta => resposta.json())
       .then(dados => setProdutos(dados))
   }, [])
 
   function handleExcluir(id:number){
     alert(`Excluir o produto com id ${id}`)
-    fetch(`https://one022a-marketplace-e90o.onrender.com/produtos/${id}`, {
+    fetch(`https://one022a-marketplace-bggt.onrender.com/produtos/${id}`, {
       method: 'DELETE'
     })
     .then(resposta=>{
