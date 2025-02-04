@@ -1,60 +1,34 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import  './CadastroProduto.css';
+import "./CadastroProduto.css";
+
 function CadastroProduto() {
     const navigate = useNavigate();
-    const [id, setId] = useState("");
-    const [nome, setNome] = useState("");
-    const [descricao, setDescricao] = useState("");
-    const [preco, setPreco] = useState("");
-    const [imagem, setImagem] = useState("");
+    const [produto, setProduto] = useState({ id: "", nome: "", descricao: "", preco: "", imagem: "", modelo: "", marca: "" });
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setProduto({ ...produto, [event.target.name]: event.target.value });
+    };
 
     async function handleForm(event: FormEvent) {
         event.preventDefault();
         try {
             const resposta = await fetch("https://one022a-marketplace-bggt.onrender.com/produtos", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    id: id,
-                    nome: nome,
-                    descricao: descricao,
-                    preco: preco,
-                    imagem: imagem
-                })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(produto),
             });
-            if (resposta.status != 500) {
+
+            if (resposta.ok) {
                 alert("Produto Cadastrado com Sucesso");
                 navigate("/");
             } else {
                 const mensagem = await resposta.text();
                 alert("Erro ao Cadastrar Produto - Error: " + mensagem);
             }
-        } catch (e) {
+        } catch {
             alert("Servidor não está respondendo.");
         }
-    }
-
-    function handleId(event: ChangeEvent<HTMLInputElement>) {
-        setId(event.target.value);
-    }
-
-    function handleNome(event: ChangeEvent<HTMLInputElement>) {
-        setNome(event.target.value);
-    }
-
-    function handleDescricao(event: ChangeEvent<HTMLInputElement>) {
-        setDescricao(event.target.value);
-    }
-
-    function handlePreco(event: ChangeEvent<HTMLInputElement>) {
-        setPreco(event.target.value);
-    }
-
-    function handleImagem(event: ChangeEvent<HTMLInputElement>) {
-        setImagem(event.target.value);
     }
 
     return (
@@ -62,19 +36,25 @@ function CadastroProduto() {
             <h1>Cadastro de Produtos</h1>
             <form onSubmit={handleForm}>
                 <div>
-                    <input className='componente-botao' placeholder="Id" type="text" name="id" id="id" onChange={handleId} />
+                    <input className='componente-botao' placeholder="Id" type="text" name="id" id="id" onChange={handleChange} />
                 </div>
                 <div>
-                    <input className='componente-botao' placeholder="Nome" type="text" name="nome" id="nome" onChange={handleNome} />
+                    <input className='componente-botao' placeholder="Nome" type="text" name="nome" id="nome" onChange={handleChange} />
                 </div>
                 <div>
-                    <input className='componente-botao' placeholder="Descrição" type="text" name="descricao" id="descricao" onChange={handleDescricao} />
+                    <input className='componente-botao' placeholder="Descrição" type="text" name="descricao" id="descricao" onChange={handleChange} />
                 </div>
                 <div>
-                    <input className='componente-botao' placeholder="Preço" type="text" name="preco" id="preco" onChange={handlePreco} />
+                    <input className='componente-botao' placeholder="Preço" type="text" name="preco" id="preco" onChange={handleChange} />
                 </div>
                 <div>
-                    <input className='componente-botao' placeholder="URL Imagem" type="text" name="imagem" id="imagem" onChange={handleImagem} />
+                    <input className='componente-botao' placeholder="Modelo" type="text" name="modelo" id="modelo" onChange={handleChange} />
+                </div>
+                <div>
+                    <input className='componente-botao' placeholder="Marca" type="text" name="marca" id="marca" onChange={handleChange} />
+                </div>
+                <div>
+                    <input className='componente-botao' placeholder="URL Imagem" type="text" name="imagem" id="imagem" onChange={handleChange} />
                 </div>
                 <input className='componente-botao' type="submit" value="Cadastrar" />
             </form>
